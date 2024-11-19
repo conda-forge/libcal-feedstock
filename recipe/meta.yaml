@@ -1,4 +1,4 @@
-{% set version = "0.4.3.36" %}
+{% set version = "0.4.4.50" %}
 {% set lib_version = version.split(".")[0]+"."+version.split(".")[1]+"."+version.split(".")[2]+".0" %}
 {% set platform = "placeholder" %}  # [not (linux64 or aarch64)]
 {% set platform = "linux-x86_64" %}  # [linux64]
@@ -14,14 +14,12 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/cublasmp/redist/libcal/{{ platform }}/libcal-{{ platform }}-{{ version }}_cuda{{ cuda_major }}-archive.{{ extension }}
-  sha256: 271d9951ee5b5e4e6e9fcb7079ce3c36f5dd581b3a0f7d1937f81e0c0e058fb8  # [linux64 and (cuda_compiler_version or "").startswith("11")]
-  sha256: eac07cc1524b37c693944e3e91c4857ed66bc2bb2579407ce9795916c9a113a4  # [linux64 and (cuda_compiler_version or "").startswith("12")]
-  sha256: d0016b62d42916e37cd065279eb8fa4947e3423220812c696c09ea417477c770  # [aarch64 and (cuda_compiler_version or "").startswith("11")]
-  sha256: 3500c18236fc449cf0395ee422c5a1771ce6349dc547951eaa6562ffc4fc762c  # [aarch64 and (cuda_compiler_version or "").startswith("12")]
+  sha256: 291a665f48e9bc56718b9af75ca5354265476681a7d62cd4ee6601573ee1901e  # [linux64 and (cuda_compiler_version or "").startswith("12")]
+  sha256: 41919928433a9e174aafb364671a6adc4de28f3917924d387c7ef1b62baea3c3  # [aarch64 and (cuda_compiler_version or "").startswith("12")]
 
 build:
   number: 0
-  skip: true  # [cuda_compiler_version in (None, "None")]
+  skip: true  # [cuda_compiler_version in (None, "None") or (cuda_compiler_version or "").startswith("11")]
   skip: true  # [not (linux64 or aarch64)]
   script:
     - cp -rv include $PREFIX
