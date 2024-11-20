@@ -18,7 +18,7 @@ source:
   sha256: 41919928433a9e174aafb364671a6adc4de28f3917924d387c7ef1b62baea3c3  # [aarch64 and (cuda_compiler_version or "").startswith("12")]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [cuda_compiler_version in (None, "None") or (cuda_compiler_version or "").startswith("11")]
   skip: true  # [not (linux64 or aarch64)]
   script:
