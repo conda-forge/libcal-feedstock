@@ -2,7 +2,7 @@
 {% set lib_version = version.split(".")[0]+"."+version.split(".")[1]+"."+version.split(".")[2]+".0" %}
 {% set platform = "placeholder" %}  # [not (linux64 or aarch64)]
 {% set platform = "linux-x86_64" %}  # [linux64]
-{% set platform = "linux-sbsa" %}    # [aarch64]
+{% set platform = "linux-sbsa" %}  # [aarch64]
 {% set extension = "tar.xz" %}
 
 {% set cuda_compiler_version = cuda_compiler_version|default("None") %}
@@ -18,13 +18,18 @@ source:
   sha256: 41919928433a9e174aafb364671a6adc4de28f3917924d387c7ef1b62baea3c3  # [aarch64 and (cuda_compiler_version or "").startswith("12")]
 
 build:
-  number: 1
+  number: 2
   skip: true  # [cuda_compiler_version in (None, "None") or (cuda_compiler_version or "").startswith("11")]
   skip: true  # [not (linux64 or aarch64)]
   script:
     - cp -rv include $PREFIX
     - cp -rv lib $PREFIX
     - mkdir -p $PREFIX/share/libcal
+    - check-glibc "$PREFIX"/lib*/*.so.* "$PREFIX"/bin/* "$PREFIX"/targets/*/lib*/*.so.* "$PREFIX"/targets/*/bin/*  # [linux]
+
+requirements:
+  build:
+    - cf-nvidia-tools 1.*  # [linux]
 
 outputs:
   - name: libcal
