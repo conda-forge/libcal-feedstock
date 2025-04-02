@@ -27,6 +27,10 @@ build:
     - mkdir -p $PREFIX/share/libcal
     - check-glibc "$PREFIX"/lib*/*.so.* "$PREFIX"/bin/* "$PREFIX"/targets/*/lib*/*.so.* "$PREFIX"/targets/*/bin/*  # [linux]
 
+requirements:
+  build:
+    - cf-nvidia-tools 1.*  # [linux]
+
 outputs:
   - name: libcal
     build:
